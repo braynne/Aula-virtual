@@ -15,16 +15,19 @@ public class LoginController {
 
     public AuthService authService;
 
-    public LoginController(AuthService authService){
+    public LoginController (AuthService authService) {
         this.authService = authService;
     }
     
     @PostMapping
-    public String login(@RequestBody LoginRequest loginRequest){
-
+    public String login (
+        @RequestBody LoginRequest loginRequest
+    ) {
         String token = authService
-        .login(loginRequest.getUsuario(), loginRequest.getContrasena());
-
+        .login(
+            loginRequest.getUsuario(),
+            loginRequest.getContrasena()
+        );
         return token;
     }
 

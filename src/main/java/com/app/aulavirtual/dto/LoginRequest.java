@@ -8,9 +8,6 @@ import lombok.Setter;
 @Setter 
 @AllArgsConstructor 
 public class LoginRequest {
-
     public String usuario;
-
     public String contrasena;
-
 }

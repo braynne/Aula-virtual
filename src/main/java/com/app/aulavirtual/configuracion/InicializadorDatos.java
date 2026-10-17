@@ -12,14 +12,17 @@ import com.app.aulavirtual.repositorios.UserRepository;
 public class InicializadorDatos {
 
     @Bean
-    CommandLineRunner inicializarBaseDatos(
-            UserRepository usuRepository,
-            PasswordEncoder passwordEncoder) {
-
+    CommandLineRunner inicializarBaseDatos (
+        UserRepository usuRepository,
+        PasswordEncoder passwordEncoder
+    ) {
         return arg -> {
             if (usuRepository.findByUsername("admin").isEmpty()) {
-                User user = new User(null, "admin"
-                , passwordEncoder.encode("12345"), "ADMIN");
+                User user = new User (
+                    null, "admin",
+                    passwordEncoder.encode("12345"),
+                    "ADMIN"
+                );
                 usuRepository.save(user);
             }
         };

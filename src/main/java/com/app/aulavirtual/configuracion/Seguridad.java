@@ -34,44 +34,64 @@ public class Seguridad {
     }
 
     @Bean
-    AuthenticationManager authenticationManager(
-            CustomUserDetailService customUserDetailService,
-            PasswordEncoder passwordEncoder) {
-
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(customUserDetailService);
-
+    AuthenticationManager authenticationManager (
+        CustomUserDetailService customUserDetailService,
+        PasswordEncoder passwordEncoder
+    ) {
+        var authenticationProvider = new DaoAuthenticationProvider(customUserDetailService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(authenticationProvider);
     }
 
     @Bean
-    SecretKey secretKey(@Value("${jwt.secret}") String secret) {
-        return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+    SecretKey secretKey (
+        @Value("${jwt.secret}") String secret
+    ) {
+        return new SecretKeySpec (
+            secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"
+        );
     }
 
     @Bean
-    JwtEncoder encoder(SecretKey secretKey) {
-        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey));
+    JwtEncoder encoder (
+        SecretKey secretKey
+    ) {
+        return new NimbusJwtEncoder (
+            new ImmutableSecret<>(secretKey)
+        );
     }
 
     @Bean
-    JwtDecoder decoder(SecretKey secretKey) {
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+    JwtDecoder decoder (
+        SecretKey secretKey
+    ) {
+        return NimbusJwtDecoder.withSecretKey (
+            secretKey
+        ).build();
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
+    SecurityFilterChain securityFilterChain (
+        HttpSecurity httpSecurity
+    ) {
         httpSecurity.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(
-                        t -> t.requestMatchers("/h2-console/**", "/swagger-ui.html", "/swagger-ui/**","/v3/api-docs/**","/login/**").permitAll()
-                                .anyRequest().authenticated())
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()))
-                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> {
-                }));
-
+            .authorizeHttpRequests (
+                t -> t.requestMatchers (
+                    "/h2-console/**",
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/login/**"
+                ).permitAll()
+                 .anyRequest()
+                 .authenticated()
+            ).headers (headers -> headers.frameOptions (
+                frame -> frame.sameOrigin())
+            )
+            .oauth2ResourceServer (
+                oauth -> oauth.jwt(jwt -> {})
+            );
         return httpSecurity.build();
-
     }
 
 }

@@ -23,7 +23,12 @@ public class AuthServiceImpl implements AuthService {
     public UserRepository usuRepository;
     public PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtEncoder encoder, UserRepository usuRepository, PasswordEncoder passwordEncoder){
+    public AuthServiceImpl (
+        AuthenticationManager authenticationManager,
+        JwtEncoder encoder,
+        UserRepository usuRepository,
+        PasswordEncoder passwordEncoder
+    ) {
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
         this.usuRepository = usuRepository;
@@ -31,24 +36,30 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(String usuario, String contrasena) {
-
+    public String login (
+        String usuario,
+        String contrasena
+    ) {
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(usuario, contrasena));
-
+            .authenticate(new UsernamePasswordAuthenticationToken (
+                usuario, contrasena
+            ));
+        
         Instant now = Instant.now();
 
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
-        .issuer("jwt-aula")
-        .issuedAt(now)
-        .expiresAt(now.plusMillis(300000))
-        .subject(authentication.getName()).build();
+            .issuer("jwt-aula")
+            .issuedAt(now)
+            .expiresAt(now.plusMillis(300000))
+            .subject(authentication.getName()).build();
 
-        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+        JwsHeader header = JwsHeader.with (
+            MacAlgorithm.HS256
+        ).build();
         
-        return encoder.encode(JwtEncoderParameters.from(header, claimsSet)).getTokenValue();
+        return encoder.encode(
+            JwtEncoderParameters.from(header, claimsSet)
+        ).getTokenValue();
     }
-
-
 
 }
