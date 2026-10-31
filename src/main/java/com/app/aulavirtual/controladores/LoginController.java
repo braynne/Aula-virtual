@@ -3,13 +3,16 @@ package com.app.aulavirtual.controladores;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.aulavirtual.dto.LoginRequest;
+import com.app.aulavirtual.dto.LoginResponse;
 import com.app.aulavirtual.servicios.AuthService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-@RequestMapping("/login")
+@RequestMapping("/auth")
 @RestController
 public class LoginController {
 
@@ -19,13 +22,12 @@ public class LoginController {
         this.authService = authService;
     }
     
-    @PostMapping
-    public String login(@RequestBody LoginRequest loginRequest){
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
 
-        String token = authService
-        .login(loginRequest.getUsuario(), loginRequest.getContrasena());
+        String token = authService.login(loginRequest.getUsuario(), loginRequest.getContrasena());
 
-        return token;
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
 }

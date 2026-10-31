@@ -63,7 +63,7 @@ public class Seguridad {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                        t -> t.requestMatchers("/h2-console/**", "/swagger-ui.html", "/swagger-ui/**","/v3/api-docs/**","/login/**").permitAll()
+                        t -> t.requestMatchers("/h2-console/**", "/swagger-ui.html", "/swagger-ui/**","/v3/api-docs/**","/auth/login/**").permitAll()
                                 .anyRequest().authenticated())
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin()))
