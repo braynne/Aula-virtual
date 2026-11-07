@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +23,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "estudiante")
-public class Estudiante extends Persona {
+public class Estudiante {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "codigo")
     private Double codigo;
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "persona_id", nullable = false, unique = true)
+    private Persona persona;
     
     @ManyToMany 
     @JoinTable(name = "estudiante_curso", 

@@ -6,8 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "profesor")
-public class Profesor extends Persona {
+public class Profesor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "persona_id", nullable = false, unique = true)
+    private Persona persona;
 
     @OneToMany 
     private List<Curso> cursos;
