@@ -2,7 +2,6 @@ package com.app.aulavirtual.entidades;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -2,11 +2,9 @@ package com.app.aulavirtual.dto;
 
 import java.util.List;
 
-import com.app.aulavirtual.entidades.Profesor;
-
 import lombok.Data;
 
-@Data 
+@Data
 public class CursoDto {
 
     private Long id;
@@ -17,6 +15,6 @@ public class CursoDto {
 
     private List<EstudianteDto> estudiantes;
 
-    private Profesor profesor;
+    private ProfesorDto profesor;
 
 }

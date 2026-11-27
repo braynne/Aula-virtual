@@ -31,7 +31,7 @@ public class Profesor {
     @JoinColumn(name = "persona_id", nullable = false, unique = true)
     private Persona persona;
 
-    @OneToMany 
+    @OneToMany(mappedBy = "profesor")
     private List<Curso> cursos;
 
 }

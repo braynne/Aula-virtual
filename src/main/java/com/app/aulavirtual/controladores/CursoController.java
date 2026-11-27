@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.aulavirtual.dto.CursoDto;
 import com.app.aulavirtual.servicios.CursoService;
+import com.app.aulavirtual.dto.CursoListaDto;
+import com.app.aulavirtual.dto.CursoDetalleDto;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RequestMapping("/cursos")
 @RestController 
@@ -21,10 +24,25 @@ public class CursoController {
         this.cursoService = cursoService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<CursoDto>> listarMisCursos(Authentication authentication){
-        List<CursoDto> cursos = cursoService.listarCursosPorUsuario(authentication.getName());
+    @GetMapping("/mis-cursos")
+    public ResponseEntity<List<CursoListaDto>> listarMisCursos (
+        Authentication authentication
+    ){
+        List<CursoListaDto> cursos = cursoService.listarCursosPorUsuario (
+            authentication.getName()
+        );
         return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CursoDetalleDto> obtenerPorId (
+        Authentication authentication,
+        @PathVariable Long id
+    ) {
+        var response = cursoService.obtenerCursoPorId(id);
+        if (response.isPresent()) {
+            return ResponseEntity.ok(response.get());
+        } else return ResponseEntity.notFound().build();
     }
 
 }
